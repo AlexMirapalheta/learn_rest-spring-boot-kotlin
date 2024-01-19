@@ -1,7 +1,10 @@
 package com.learn.restspringbootkotlin.service
 
+import com.learn.restspringbootkotlin.exceptions.UnsupportedMathOperationException
+import org.springframework.stereotype.Service
 import kotlin.math.sqrt
 
+@Service
 class MathService {
 
     fun isNumeric(strNumber: String?): Boolean {
@@ -16,7 +19,11 @@ class MathService {
         if (strNumber.isNullOrBlank()) return 0.0
         val number = strNumber.replace(",".toRegex(), ".")
 
-        return if (isNumeric(strNumber)) number.toDouble() else 0.0
+        return if (isNumeric(strNumber)) {
+            number.toDouble()
+        } else {
+            throw UnsupportedMathOperationException("Fail to Convert String to Double")
+        }
     }
     fun sum (numberOne: String?, numberTwo: String?): Double {
         return convertToDouble(numberOne) + convertToDouble(numberTwo)
